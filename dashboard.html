@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>My Bookings - Soulskey</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+   <style>
+       :root {
+           --bg-dark: #121212;
+           --bg-secondary: #1a1a1a;
+           --text-light: #E0E0E0;
+           --text-medium: #A0A0A0;
+           --accent-gold: #D4AF37;
+           --accent-gold-hover: #EAC645;
+           --royal-blue-dark: #0a192f;
+       }
+
+
+       body {
+           background-color: var(--bg-dark);
+           background-image: radial-gradient(ellipse at bottom, var(--royal-blue-dark), var(--bg-dark));
+           color: var(--text-light);
+           font-family: 'Inter', sans-serif;
+           overflow-x: hidden;
+           min-height: 100vh;
+       }
+
+
+       .font-playfair {
+           font-family: 'Playfair Display', serif;
+       }
+      
+       .cta-button {
+           background-color: var(--accent-gold);
+           color: var(--bg-dark);
+           font-family: 'Inter', sans-serif;
+           font-weight: 600;
+           transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+           display: inline-flex; /* Use inline-flex for alignment */
+           align-items: center;
+           justify-content: center;
+           text-align: center;
+           border-radius: 9999px;
+           box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+       }
+
+
+       .cta-button:hover {
+           transform: translateY(-3px);
+           background-color: var(--accent-gold-hover);
+           box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+       }
+
+
+       .secondary-button {
+           background-color: transparent;
+           color: var(--accent-gold);
+           border: 2px solid var(--accent-gold);
+           font-weight: 600;
+           transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+           display: inline-block;
+           text-align: center;
+           border-radius: 9999px;
+       }
+
+
+       .secondary-button:hover {
+           background-color: var(--accent-gold);
+           color: var(--bg-dark);
+       }
+   </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+
+   <div class="w-full max-w-2xl mx-auto">
+
+
+       <!-- Login View -->
+       <div id="login-view" class="text-center bg-black/20 backdrop-blur-sm p-8 md:p-12 rounded-2xl border border-white/10">
+           <h1 class="font-playfair text-4xl text-white mb-4">Welcome Back</h1>
+           <p class="text-text-medium mb-8">Please sign in to view your bookings.</p>
+           <button id="login-button" class="cta-button font-bold text-lg px-8 py-3 mx-auto">
+               <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C39.902,35.688,44,30.138,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+               Sign In with Google
+           </button>
+           <p class="mt-8"><a href="index.html" class="text-accent-gold hover:underline">← Back to Home</a></p>
+       </div>
+
+
+       <!-- Dashboard View (hidden by default) -->
+       <div id="dashboard-view" class="hidden">
+           <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+               <div>
+                   <h1 class="font-playfair text-4xl text-white">My Bookings</h1>
+                   <p id="user-email" class="text-text-medium"></p>
+               </div>
+               <button id="logout-button" class="secondary-button font-semibold py-2 px-5 w-full sm:w-auto">Logout</button>
+           </div>
+          
+           <div id="bookings-list" class="bg-black/20 backdrop-blur-sm p-6 md:p-8 rounded-2xl space-y-4 border border-white/10 min-h-[150px]">
+               <!-- Bookings will be dynamically inserted here -->
+               <p id="no-bookings-message" class="text-text-medium">You have no bookings yet.</p>
+           </div>
+           <p class="mt-8 text-center"><a href="index.html" class="text-accent-gold hover:underline">← Back to Home</a></p>
+       </div>
+
+
+   </div>
+
+
+   <!-- Firebase Scripts -->
+   <script type="module">
+       const firebaseConfig = {
+               apiKey: "AIzaSyCr2e1fItelEcjtomC6V8RryqyCqaSEgMM",
+               authDomain: "divyadrusti-website.firebaseapp.com",
+               projectId: "divyadrusti-website",
+               storageBucket: "divyadrusti-website.firebasestorage.app",
+               messagingSenderId: "51569335615",
+               appId: "1:51569335615:web:f7a444ddc1a0e47533078a"
+           };
+          
+       const appId = "soulskey";
+
+
+       // Import functions from the respective SDKs
+       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+       import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+       import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+       // Initialize Firebase
+       const app = initializeApp(firebaseConfig);
+       const auth = getAuth(app);
+       const db = getFirestore(app);
+
+
+       // Get DOM elements
+       const loginView = document.getElementById('login-view');
+       const dashboardView = document.getElementById('dashboard-view');
+       const loginButton = document.getElementById('login-button');
+       const logoutButton = document.getElementById('logout-button');
+       const userEmailElement = document.getElementById('user-email');
+       const bookingsList = document.getElementById('bookings-list');
+       const noBookingsMessage = document.getElementById('no-bookings-message');
+
+
+       // Function to fetch and display bookings
+       async function fetchBookings(userId) {
+           bookingsList.innerHTML = ''; // Clear previous list
+           // Note: This path assumes bookings are stored under a user's private data.
+           const bookingsRef = collection(db, `artifacts/${appId}/users/${userId}/bookings`);
+           const q = query(bookingsRef);
+          
+           try {
+               const querySnapshot = await getDocs(q);
+               if (querySnapshot.empty) {
+                   bookingsList.appendChild(noBookingsMessage);
+                   noBookingsMessage.style.display = 'block';
+               } else {
+                   noBookingsMessage.style.display = 'none';
+                   querySnapshot.forEach((doc) => {
+                       const booking = doc.data();
+                       const bookingElement = document.createElement('div');
+                       bookingElement.className = 'p-4 border-b border-white/10 last:border-b-0';
+                       bookingElement.innerHTML = `
+                           <p class="font-playfair font-bold text-lg text-white">${booking.packageName || 'N/A'}</p>
+                           <p class="text-text-medium">Status: <span class="font-semibold text-accent-gold">${booking.status || 'N/A'}</span></p>
+                           <p class="text-sm text-gray-500 mt-1">Booking ID: ${doc.id}</p>
+                       `;
+                       bookingsList.appendChild(bookingElement);
+                   });
+               }
+           } catch (error) {
+               console.error("Error fetching bookings: ", error);
+               bookingsList.innerHTML = '<p class="text-red-500">Could not fetch bookings. Please try again later.</p>';
+           }
+       }
+
+
+       // Listen for authentication state changes
+       onAuthStateChanged(auth, (user) => {
+           if (user) {
+               // User is signed in
+               loginView.classList.add('hidden');
+               dashboardView.classList.remove('hidden');
+               userEmailElement.textContent = `Signed in as ${user.email}`;
+               fetchBookings(user.uid);
+           } else {
+               // User is signed out
+               loginView.classList.remove('hidden');
+               dashboardView.classList.add('hidden');
+           }
+       });
+
+
+       // Handle Google Login
+       loginButton.addEventListener('click', () => {
+           const provider = new GoogleAuthProvider();
+           signInWithPopup(auth, provider)
+               .then((result) => {
+                   const user = result.user;
+                   console.log('Logged in user:', user.displayName);
+               }).catch((error) => {
+                   const errorCode = error.code;
+                   const errorMessage = error.message;
+                   console.error(`Login Error (${errorCode}):`, errorMessage);
+                   alert(`Login failed: ${errorMessage}`);
+               });
+       });
+
+
+       // Handle Logout
+       logoutButton.addEventListener('click', () => {
+           signOut(auth).then(() => {
+               console.log('User signed out.');
+           }).catch((error) => {
+               console.error('Sign out error:', error);
+           });
+       });
+
+
+   </script>
+</body>
+</html>

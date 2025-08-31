@@ -21,8 +21,7 @@
   // Initialize Firebase
  const app = initializeApp(firebaseConfig);
  const analytics = getAnalytics(app);
- const auth = getAuth(app);
-
+ window.auth = getAuth(app); // Attach to window
 
  // Handle Firebase Authentication
  onAuthStateChanged(auth, async (user) => {
@@ -428,19 +427,18 @@
 
 <script type="module">
  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  const auth = getAuth();
  const authLink = document.getElementById('auth-link');
  const authLinkMobile = document.getElementById('auth-link-mobile');
 
-
- onAuthStateChanged(auth, (user) => {
-   if (user) {
-     authLink.innerHTML = `<span class="relative text-sm">My Bookings</span>`;
-     authLinkMobile.textContent = 'My Bookings';
-   } else {
-     authLink.innerHTML = `<span class="relative text-sm">Login</span><svg class="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>`;
-     authLinkMobile.textContent = 'Login';
-   }
+ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+ onAuthStateChanged(window.auth, (user) => {
+  if (user) {
+    authLink.innerHTML = `<span class="relative text-sm">My Bookings</span>`;
+    authLinkMobile.textContent = 'My Bookings';
+  } else {
+    authLink.innerHTML = `<span class="relative text-sm">Login</span><svg class="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>`;
+    authLinkMobile.textContent = 'Login';
+  }
  });
 </script>
 </body>
